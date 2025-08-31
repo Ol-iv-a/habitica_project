@@ -22,7 +22,7 @@ def browser_config():
     yield browser
 
     if is_remote_run():
-        allure_attach.get_video(browser)
+        # allure_attach.get_video(browser)
         allure_attach.get_remote_log(browser)
     else:
         allure_attach.get_screenshot(browser)
