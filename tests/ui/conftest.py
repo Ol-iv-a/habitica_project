@@ -19,7 +19,8 @@ def browser_config():
         "browserVersion": "128.0",
         "selenoid:options": {
             "enableVNC": True,
-            "enableVideo": True
+            "enableVideo": True,
+            "enableLog": True
         }
     }
     selenoid_url = os.getenv("SELENOID_URL")
