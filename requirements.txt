@@ -3,5 +3,4 @@ selene==2.0.0rc9
 allure-pytest
 jsonschema
 requests
-
-
+load_dotenv
