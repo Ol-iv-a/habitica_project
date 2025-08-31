@@ -42,7 +42,7 @@ def get_video(browser):
         extension='.html')
 
 def get_remote_log(browser):
-    logs_url = f"https://selenoid.autotests.cloud/logs/" + browser.config.driver.session_id + ".json"
+    logs_url = f"https://selenoid.autotests.cloud/logs/" + browser.session_id + ".json"
 
     allure.attach(
         body=logs_url,
