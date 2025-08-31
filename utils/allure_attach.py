@@ -11,11 +11,18 @@ def get_screenshot(browser):
 
 
 def get_logs(browser):
-    log = "".join(f'{text}\n' for text in browser.driver.get_log(log_type='browser'))
+    # log = "".join(f'{text}\n' for text in browser.driver.get_log(log_type='browser'))
+    # allure.attach(
+    #     body=log,
+    #     name='browser_logs',
+    #     attachment_type=allure.attachment_type.TEXT,
+    #     extension='.log'
+    # )
+    log = ''.join(f'{text}\n' for text in browser.driver.execute('getLog', {'type': 'browser'})['value'])
     allure.attach(
-        body=log,
+        log,
         name='browser_logs',
-        attachment_type=allure.attachment_type.TEXT,
+        attachment_type=allure.attachment_type.HTML,
         extension='.log'
     )
 
