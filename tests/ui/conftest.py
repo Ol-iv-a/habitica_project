@@ -41,6 +41,9 @@ def create_local_browser():
     return browser
 
 def create_remote_browser():
+    browser.config.base_url = "https://habitica.com"
+    browser.config.window_height = 1440
+    browser.config.window_width = 1400
     options = Options()
     options.add_argument("--lang=ru")
     options.add_argument("--accept-lang=ru")
