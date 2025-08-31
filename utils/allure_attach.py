@@ -11,18 +11,11 @@ def get_screenshot(browser):
 
 
 def get_logs(browser):
-    # log = "".join(f'{text}\n' for text in browser.driver.get_log(log_type='browser'))
-    # allure.attach(
-    #     body=log,
-    #     name='browser_logs',
-    #     attachment_type=allure.attachment_type.TEXT,
-    #     extension='.log'
-    # )
-    log = ''.join(f'{text}\n' for text in browser.driver.execute('getLog', {'type': 'browser'})['value'])
+    log = "".join(f'{text}\n' for text in browser.driver.get_log(log_type='browser'))
     allure.attach(
-        log,
+        body=log,
         name='browser_logs',
-        attachment_type=allure.attachment_type.HTML,
+        attachment_type=allure.attachment_type.TEXT,
         extension='.log'
     )
 
@@ -45,5 +38,14 @@ def get_video(browser):
     allure.attach(
         body=html_markup,
         name='video_' + browser.driver.session_id,
+        attachment_type=allure.attachment_type.HTML,
+        extension='.html')
+
+def log(browser):
+    logs_url = f"https://selenoid.autotests.cloud/logs/" + browser.driver.session_id + ".json"
+
+    allure.attach(
+        body=logs_url,
+        name='log' + browser.driver.session_id,
         attachment_type=allure.attachment_type.HTML,
         extension='.html')
