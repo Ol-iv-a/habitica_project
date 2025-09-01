@@ -8,7 +8,7 @@ from pages.ui.application_manager import ApplicationManager
 @allure.tag("UI", 'SUCCESS')
 @allure.severity(allure.severity_level.CRITICAL)
 @allure.link("https://habitica.com/", name="Website")
-def test_create_tack():
+def test_create_tack(browser_config):
     app = ApplicationManager()
     app.home_page.go_to_login()
     app.login_page.login_with_email('firpo@powerscrews.com', '0a+qPV4a')
@@ -22,7 +22,7 @@ def test_create_tack():
 @allure.tag("UI", 'SUCCESS')
 @allure.severity(allure.severity_level.CRITICAL)
 @allure.link("https://habitica.com/", name="Website")
-def test_update_tack():
+def test_update_tack(browser_config):
     app = ApplicationManager()
     app.home_page.go_to_login()
     app.login_page.login_with_email('firpo@powerscrews.com', '0a+qPV4a')
@@ -36,7 +36,7 @@ def test_update_tack():
 @allure.tag("UI", 'SUCCESS')
 @allure.severity(allure.severity_level.CRITICAL)
 @allure.link("https://habitica.com/", name="Website")
-def test_delete_task():
+def test_delete_task(browser_config):
     app = ApplicationManager()
     app.home_page.go_to_login()
     app.login_page.login_with_email('firpo@powerscrews.com', '0a+qPV4a')
