@@ -11,44 +11,19 @@ from selenium.webdriver.chrome.options import Options
 def is_remote_run():
     return os.getenv("RUN_MODE", "local").lower() == "remote"
 
-
-@pytest.fixture
-def browser_config():
-    if is_remote_run():
-        driver = create_remote_driver()
-    else:
-        driver = create_local_driver()
-
-    browser.config.driver = driver
-    browser.config.base_url = "https://habitica.com"
-    browser.config.window_width = 1400
-    browser.config.window_height = 1440
-
-    yield browser
-
-    if not is_remote_run():
-        allure_attach.get_video(browser)
-        allure_attach.get_remote_log(browser)
-    else:
-        allure_attach.get_screenshot(browser)
-        allure_attach.get_logs(browser)
-        allure_attach.get_html(browser)
-    browser.quit()
-
-
 def create_local_driver():
-    # browser.config.base_url = "https://habitica.com"
-    # browser.config.window_height = 1440
-    # browser.config.window_width = 1400
+    """Создание локального драйвера Chrome"""
     options = webdriver.ChromeOptions()
-    # options.add_argument("--start-maximized")
+    options.add_argument("--start-maximized")
     return webdriver.Chrome(options=options)
-    # return browser
 
 def create_remote_driver():
+    """Создание удаленного драйвера для Selenoid"""
     options = Options()
     options.add_argument("--lang=ru")
-    options.add_argument("--accept-lang=ru")
+    options.add_argument("--accept-lang=ru-RU,ru")
+
+    # Настройка capabilities для Selenoid
     selenoid_capabilities = {
         "browserName": "chrome",
         "browserVersion": "128.0",
@@ -61,17 +36,50 @@ def create_remote_driver():
 
     options.capabilities.update(selenoid_capabilities)
 
+    # Получение учетных данных из переменных окружения
     selenoid_url = os.getenv("SELENOID_URL")
     selenoid_login = os.getenv("SELENOID_LOGIN")
     selenoid_pass = os.getenv("SELENOID_PASS")
 
+    # Создание удаленного драйвера
     driver = webdriver.Remote(
         command_executor=f"https://{selenoid_login}:{selenoid_pass}@{selenoid_url}/wd/hub",
-        options=options)
+        options=options
+    )
 
-    # browser.config.driver = driver
+    return driver
 
-    yield driver
+
+@pytest.fixture(scope="function")
+def browser_config():
+    """Фикстура для настройки браузера (локального или удаленного)"""
+    # Создаем драйвер в зависимости от режима запуска
+    if is_remote_run():
+        driver = create_remote_driver()
+    else:
+        driver = create_local_driver()
+
+    # Настройка Selene
+    browser.config.driver = driver
+    browser.config.base_url = "https://habitica.com"
+    browser.config.window_width = 1400
+    browser.config.window_height = 1440
+    browser.config.timeout = 10
+
+    yield browser
+    # Прикрепление артефактов после выполнения теста
+    if is_remote_run():
+        # Для удаленного запуска - видео и логи Selenoid
+        allure_attach.get_video(browser)
+        allure_attach.get_remote_log(browser)
+    else:
+        # Для локального запуска - скриншот, логи браузера и HTML
+        allure_attach.get_screenshot(browser)
+        allure_attach.get_logs(browser)
+        allure_attach.get_html(browser)
+
+    # Закрытие браузера
+    browser.quit()
 
 # @pytest.fixture(scope='function', autouse=True)
 # def browser_config():
