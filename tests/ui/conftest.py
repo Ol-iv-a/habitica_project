@@ -15,35 +15,37 @@ def is_remote_run():
 @pytest.fixture
 def browser_config():
     if is_remote_run():
-        browser = create_remote_browser()
+        driver = create_remote_driver()
     else:
-        browser = create_local_browser()
+        driver = create_local_driver()
+
+    browser.config.driver = driver
+    browser.config.base_url = "https://habitica.com"
+    browser.config.window_width = 1400
+    browser.config.window_height = 1440
 
     yield browser
 
     if not is_remote_run():
-        # allure_attach.get_video(browser)
-        # allure_attach.get_remote_log(browser)
-    # else:
+        allure_attach.get_video(browser)
+        allure_attach.get_remote_log(browser)
+    else:
         allure_attach.get_screenshot(browser)
         allure_attach.get_logs(browser)
         allure_attach.get_html(browser)
     browser.quit()
 
 
-def create_local_browser():
-    browser.config.base_url = "https://habitica.com"
-    browser.config.window_height = 1440
-    browser.config.window_width = 1400
-    # options = webdriver.ChromeOptions()
+def create_local_driver():
+    # browser.config.base_url = "https://habitica.com"
+    # browser.config.window_height = 1440
+    # browser.config.window_width = 1400
+    options = webdriver.ChromeOptions()
     # options.add_argument("--start-maximized")
-    # return webdriver.Chrome(options=options)
-    return browser
+    return webdriver.Chrome(options=options)
+    # return browser
 
-def create_remote_browser():
-    browser.config.base_url = "https://habitica.com"
-    browser.config.window_height = 1440
-    browser.config.window_width = 1400
+def create_remote_driver():
     options = Options()
     options.add_argument("--lang=ru")
     options.add_argument("--accept-lang=ru")
@@ -67,9 +69,9 @@ def create_remote_browser():
         command_executor=f"https://{selenoid_login}:{selenoid_pass}@{selenoid_url}/wd/hub",
         options=options)
 
-    browser.config.driver = driver
+    # browser.config.driver = driver
 
-    yield browser
+    yield driver
 
 # @pytest.fixture(scope='function', autouse=True)
 # def browser_config():
