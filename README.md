@@ -46,6 +46,7 @@ pytest .
 ----
 
 ### Удаленный запуск автотестов выполняется в Jenkins или в Allure TestOps
+![img.png](media/img.png)
 > <a href="https://jenkins.autotests.cloud/view/QA.GURU%20students/job/qa_guru_olivia_habitica_project/">Ссылка на проект в Jenkins</a>
 
 > <a href="https://allure.autotests.cloud/project/4903/dashboards">Ссылка на проект в Allure TestOps</a>
@@ -57,6 +58,7 @@ pytest .
 3. Результат запуска сборки можно посмотреть в отчёте Allure TestOps
 
 #### Для запуска автотестов в Allure TestOps
+![img_1.png](media/img_1.png)
 
 1. Открыть <a target="_blank" href="https://allure.autotests.cloud/project/4903/dashboards">проект</a>
 2. В боковом меню перейти на вкладку "Тест-кейсы".
@@ -74,3 +76,6 @@ pytest .
 - при удаленном запуске:
   - Логи браузера
   - Видео прохождение теста 
+  
+![img.png](media/allure.png)
+![img_1.png](media/allure_1.png)
