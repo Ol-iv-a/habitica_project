@@ -10,6 +10,7 @@ class HomePage:
         self.approve_password = s('[placeholder="Подтвердите пароль"]')
         self.move_to_login_button = s('[href="/login"]')
         self.sign_up_button = s('.btn.btn-block.btn-info.sign-up')
+        self.accept_button = s(".btn.btn-primary.mb-2")
 
     @allure.step('Открыть главную страницу habitica.com')
     def open(self):
@@ -19,6 +20,7 @@ class HomePage:
     @allure.step('Переход на страницу авторизации')
     def go_to_login(self):
         self.open().move_to_login_button.click()
+        self.accept_button.click()
         return self
 
     def register(self, username, email, password):

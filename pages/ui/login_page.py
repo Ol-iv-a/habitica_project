@@ -14,6 +14,7 @@ class LoginPage:
         sleep(1)
         self.username.set_value(email)
         self.password.set_value(password)
+        sleep(2)
         self.sing_in_button.click()
         return self
 
@@ -22,5 +23,6 @@ class LoginPage:
         sleep(1)
         self.username.set_value(username)
         self.password.set_value(password)
+        sleep(2)
         self.sing_in_button.click()
         return self
